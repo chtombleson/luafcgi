@@ -4,7 +4,7 @@ static int New(lua_State *L) {
     int arg_n = lua_gettop(L);
 
     if (arg_n > 2) {
-        lua_pushstring(L, "luafcgi.New take 2 arguments");
+        lua_pushstring(L, "luafcgi.New takes 2 arguments");
         lua_error(L);
         return 0;
     }
@@ -38,11 +38,16 @@ static int getPort(lua_State *L) {
     return 1;
 }
 
+static int runApp(lua_State *L) {
+    return 1;
+}
+
 LUALIB_API int luaopen_luafcgi(lua_State *L) {
     struct luaL_Reg driver[] = {
         {"New", New},
         {"getHost", getHost},
         {"getPort", getPort},
+        {"runApp", runApp},
         {NULL, NULL},
     };
 

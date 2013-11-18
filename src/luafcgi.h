@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "fcgi_stdio.h"
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
@@ -12,3 +12,4 @@ int LUA_API luaopen_luafcgi (lua_State *L);
 static int New(lua_State *L);
 static int getHost(lua_State *L);
 static int getPort(lua_State *L);
+static int runApp(lua_State *L);
