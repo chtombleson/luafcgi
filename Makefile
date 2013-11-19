@@ -23,7 +23,7 @@ $(LIBNAME): $(OBJS)
 	$(CC) $(CFLAGS) -o bin/$@ $(LIB_OPTION) $(OBJS) $(LIBS)
 
 $(EXE):
-	$(CC) $(WARN) $(INCS) -o bin/$@ src/lua-fcgi.c
+	$(CC) $(WARN) $(INCS) -o bin/$@ src/lua-fcgi.c -lconfig
 
 clean:
 	rm -f bin/$(LIBNAME) src/*.o bin/$(EXE)

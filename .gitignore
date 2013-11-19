@@ -2,3 +2,4 @@ bin/*.so
 bin/*.lua
 bin/lua-fcgi
 src/*.o
+*.swp
