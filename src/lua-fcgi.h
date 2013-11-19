@@ -21,16 +21,14 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-#include "fcgi_stdio.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <libconfig.h>
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 
-#define LUA_LIB
-#define PROJECT_TABLENAME "luafcgi"
-
-const char* socket_path = NULL;
-int socket = NULL;
-int LUA_API luaopen_luafcgi (lua_State *L);
-static int New(lua_State *L);
-static int runApp(lua_State *L);
+config_t cfg;
+char *config_file;
+const char *socket;
+int threads;
