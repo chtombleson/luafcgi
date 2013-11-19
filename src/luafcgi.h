@@ -6,10 +6,8 @@
 #define LUA_LIB
 #define PROJECT_TABLENAME "luafcgi"
 
-const char* host;
-int  port;
+const char* socket_path = NULL;
+int socket = NULL;
 int LUA_API luaopen_luafcgi (lua_State *L);
 static int New(lua_State *L);
-static int getHost(lua_State *L);
-static int getPort(lua_State *L);
 static int runApp(lua_State *L);
