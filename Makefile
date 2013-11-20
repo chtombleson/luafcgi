@@ -23,7 +23,7 @@ $(LIBNAME): $(OBJS)
 	$(CC) $(CFLAGS) -o bin/$@ $(LIB_OPTION) $(OBJS) $(LIBS)
 
 $(EXE):
-	$(CC) $(WARN) $(INCS) -o bin/$@ src/lua-fcgi.c -lconfig
+	$(CC) $(WARN) $(INCS) -L/usr/lib/i386-linux-gnu/ -o bin/$@ src/lua-fcgi.c $(LIBS) -llua5.1 -lm
 
 clean:
 	rm -f bin/$(LIBNAME) src/*.o bin/$(EXE)

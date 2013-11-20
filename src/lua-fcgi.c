@@ -1,104 +1,172 @@
-/*
-* The MIT License (MIT)
-*
-* Copyright (c) 2013 Christopher Tombleson <chris@cribznetwork.com>
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
-#include "lua-fcgi.h"
+#include "fcgiapp.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
+// Global vars
+FCGX_Request request;
+lua_State *Lua;
 
-/**
-* parseArgs
-*
-* Parse the command line arguments that where given
-* @param int            argc    Argument count
-* @param const char*    argv    Array of arguments
-* @return void
-*/
-void parseArgs(int argc, const char* argv[]) {
-    int key;
+void createServerVar() {
+    char *query_string, *request_method, *content_type,
+         *content_length, *script_filename, *script_name,
+         *request_uri, *document_uri, *document_root,
+         *server_protocol, *gateway_interface, *server_software,
+         *remote_address, *remote_port, *server_address,
+         *server_port, *server_name, *https;
 
-    while ((key = getopt(argc, argv, "c:")) != -1) {
-        switch (key) {
-            case 'c':
-                config_file = optarg;
-                break;
+    // Get server enviroment variables
+    query_string        = FCGX_GetParam("QUERY_STRING", request.envp);
+    request_method      = FCGX_GetParam("REQUEST_METHOD", request.envp);
+    content_type        = FCGX_GetParam("CONTENT_TYPE", request.envp);
+    content_length      = FCGX_GetParam("CONTENT_LENGTH", request.envp);
+    script_filename     = FCGX_GetParam("SCRIPT_FILENAME", request.envp);
+    script_name         = FCGX_GetParam("SCRIPT_NAME", request.envp);
+    request_uri         = FCGX_GetParam("REQUEST_URI", request.envp);
+    document_uri        = FCGX_GetParam("DOCUMENT_URI", request.envp);
+    document_root       = FCGX_GetParam("DOCUMENT_ROOT", request.envp);
+    server_protocol     = FCGX_GetParam("SERVER_PROTOCOL", request.envp);
+    gateway_interface   = FCGX_GetParam("GATEWAY_INTERFACE", request.envp);
+    server_software     = FCGX_GetParam("SERVER_SOFTWARE", request.envp);
+    remote_address      = FCGX_GetParam("REMOTE_ADDR", request.envp);
+    remote_port         = FCGX_GetParam("REMOTE_PORT", request.envp);
+    server_address      = FCGX_GetParam("SERVER_ADDR", request.envp);
+    server_port         = FCGX_GetParam("SERVER_PORT", request.envp);
+    server_name         = FCGX_GetParam("SERVER_NAME", request.envp);
+    https               = FCGX_GetParam("HTTPS", request.envp);
+
+    // Create table to hold these values for Lua to read from
+    lua_createtable(Lua, 0, 0);
+
+    lua_pushstring(Lua, "query_string");
+    lua_pushstring(Lua, query_string);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "request_method");
+    lua_pushstring(Lua, request_method);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "content_type");
+    lua_pushstring(Lua, content_type);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "content_length");
+    lua_pushstring(Lua, content_length);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "script_filename");
+    lua_pushstring(Lua, script_filename);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "script_name");
+    lua_pushstring(Lua, script_name);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "request_uri");
+    lua_pushstring(Lua, request_uri);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "document_uri");
+    lua_pushstring(Lua, document_uri);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "document_root");
+    lua_pushstring(Lua, document_root);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "server_protocol");
+    lua_pushstring(Lua, server_protocol);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "gateway_interface");
+    lua_pushstring(Lua, gateway_interface);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "server_software");
+    lua_pushstring(Lua, server_software);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "remote_address");
+    lua_pushstring(Lua, remote_address);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "remote_port");
+    lua_pushstring(Lua, remote_port);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "server_address");
+    lua_pushstring(Lua, server_address);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "server_port");
+    lua_pushstring(Lua, server_port);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "server_name");
+    lua_pushstring(Lua, server_name);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "https");
+    lua_pushstring(Lua, https);
+    lua_rawset(Lua, -3);
+
+    // Set table as SERVER variable in lua
+    lua_setglobal(Lua, "SERVER");
+}
+
+int main() {
+    Lua = luaL_newstate();
+    luaL_openlibs(Lua);
+
+    FCGX_Init();
+    FCGX_InitRequest(&request, 0, 0);
+
+    int status;
+
+    while (FCGX_Accept_r(&request) == 0) {
+        // Get filepath of lua script to run
+        char *filename = FCGX_GetParam("SCRIPT_FILENAME", request.envp);
+        char *docroot = FCGX_GetParam("DOCUMENT_ROOT", request.envp);
+        char *filepath[(strlen(docroot) + strlen(filename) + 1)];
+        strcpy(filepath, docroot);
+        strcat(filepath, filename);
+
+        // Make sure the file actually exists
+        int exists = access(filepath, F_OK);
+
+        if (exists == 0) {
+            // Load lua script to run
+            status = luaL_loadfile(L, filepath);
+
+            if (status) {
+                FCGX_FPrintF(request.err, "Couldn't load file: %s\n", lua_tostring(L, -1));
+            } else {
+                createServerVar();
+            }
+
+            /*FCGX_FPrintF(request.out, 
+                "Content-type: text/html\r\n"
+                "\r\n"
+                "<html>\n"
+                "\t<head>\n"
+                "\t<title>Hello, World!</title>\n"
+                "\t</head>\n"
+                "\t<body>\n"
+                "\t\t<h1>Hello, World!</h1>\n"
+                "\t</body>\n"
+                "</html>\n"
+            );*/
+        } else {
+             FCGX_FPrintF(request.err, "File does not exist: %s\n", filepath);
         }
-    }
-}
 
-
-/**
-* readConfig
-*
-* Read the configuration file
-* @return int 0 on failure, 1 on success
-*/
-int readConfig() {
-    config_init(&cfg);
-
-    if (!config_read_file(&cfg, config_file)) {
-        printf("Error reading config file\n");
-        config_destroy(&cfg);
-        return 0;
+        FCGX_Finish_r(&request);
     }
 
-    if (!config_lookup_string(&cfg, "socket", &socket)) {
-        printf("No 'socket' setting in configuration file\n");
-        return 0;
-    }
-
-    config_lookup_int(&cfg, "threads", &threads);
-
-    if (!threads) {
-        threads = 4;
-    }
-
-    return 1;
-}
-
-
-/**
-* main
-*
-* The main function that runs the program
-* @param int            argc    Argument count
-* @param const char*    argv    Array of arguments
-* @return int 0 on success, anything else on failure
-*/
-int main(int argc, const char* argv[]) {
-    if (argc < 2) {
-        printf("Usage: lua-fcgi -c CONFIG FILE\n");
-        printf("\t-c: config file\n");
-        return -1;
-    }
-
-    parseArgs(argc, argv);
-
-    if (!readConfig()) {
-        return -1;
-    }
-
-    printf("Socket: %s\n", socket);
-    printf("Threads: %d\n", threads);
-
-    config_destroy(&cfg);
+    lua_close(Lua);
     return 0;
 }
