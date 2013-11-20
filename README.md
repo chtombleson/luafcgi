@@ -1,6 +1,8 @@
 # Lua FCGI
 
-Lua Fast CGI module
+Lua Fast CGI module.
+
+**Tested on ubuntu**
 
 ## Dependencies
 
@@ -16,11 +18,53 @@ You can run the following command to install dependencies
 
 ## Building
 
+If your building on 64bit and it fails you may have to edit the Makefile
+to point at the right location for the liblua5.1.so file.
+
     $ make
 
 ## Running Luafcgi
 
-    $ lua-fcgi
+Install spawn-fcgi to run the fcgi process: `$ sudo apt-get install spawn-fcgi`
+
+    $ spawn-fcgi -a 127.0.0.1 -p 9000 bin/lua-fcgi
+
+## Nginx Setup
+
+    $ sudo apt-get install nginx
+
+Example configuration:
+
+    server {
+        listen 80;
+        server_name localhost;
+        root /home/www/lua;
+        index index.lua;
+
+        location / {
+            try_files $uri /index.lua;
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;
+        }
+    }
+
+Modify /etc/nginx/fastcgi_params:
+
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+## Example Test Page
+
+    -- index.lua
+    print("Content-type: text/html\r\n")
+    print("\r\n")
+    print("<html>\n")
+    print("\t<head>\n")
+    print("\t\t<title>Lua FCGI example</title>\n");
+    print("\t</head>\n")
+    print(\t<body>\n")
+    print("\t\t<strong>Hello World</strong>\n")
+    print("\t</body>\n")
+    print("</html>")
 
 ## LICENSE
 

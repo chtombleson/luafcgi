@@ -118,6 +118,20 @@ void createServerVar() {
     lua_setglobal(Lua, "SERVER");
 }
 
+static int l_print(lua_State *L) {
+    int arg_n = lua_gettop(L);
+
+    if (arg_n > 1) {
+        lua_pushstring(L, "print takes one argument");
+        lua_error(L);
+        return 0;
+    }
+
+    const char* str = lua_tostring(L, 1);
+    FCGX_FPrintF(request.out, str);
+    return 1;
+}
+
 int main() {
     Lua = luaL_newstate();
     luaL_openlibs(Lua);
@@ -129,39 +143,29 @@ int main() {
 
     while (FCGX_Accept_r(&request) == 0) {
         // Get filepath of lua script to run
-        char *filename = FCGX_GetParam("SCRIPT_FILENAME", request.envp);
-        char *docroot = FCGX_GetParam("DOCUMENT_ROOT", request.envp);
-        char *filepath[(strlen(docroot) + strlen(filename) + 1)];
-        strcpy(filepath, docroot);
-        strcat(filepath, filename);
+        const char *filename = FCGX_GetParam("SCRIPT_FILENAME", request.envp);
 
         // Make sure the file actually exists
-        int exists = access(filepath, F_OK);
+        int exists = access(filename, F_OK);
 
         if (exists == 0) {
             // Load lua script to run
-            status = luaL_loadfile(L, filepath);
+            status = luaL_loadfile(Lua, filename);
 
             if (status) {
-                FCGX_FPrintF(request.err, "Couldn't load file: %s\n", lua_tostring(L, -1));
+                FCGX_FPrintF(request.err, "Couldn't load file: %s\n", lua_tostring(Lua, -1));
             } else {
+                lua_pushcfunction(Lua, l_print);
+                lua_setglobal(Lua, "print");
                 createServerVar();
-            }
 
-            /*FCGX_FPrintF(request.out, 
-                "Content-type: text/html\r\n"
-                "\r\n"
-                "<html>\n"
-                "\t<head>\n"
-                "\t<title>Hello, World!</title>\n"
-                "\t</head>\n"
-                "\t<body>\n"
-                "\t\t<h1>Hello, World!</h1>\n"
-                "\t</body>\n"
-                "</html>\n"
-            );*/
+                int result = lua_pcall(Lua, 0, LUA_MULTRET, 0);
+                if (result) {
+                    FCGX_FPrintF(request.err, "Failed to run script: %s\n", lua_tostring(Lua, -1));
+                }
+            }
         } else {
-             FCGX_FPrintF(request.err, "File does not exist: %s\n", filepath);
+             FCGX_FPrintF(request.err, "File does not exist: %s\n", filename);
         }
 
         FCGX_Finish_r(&request);
