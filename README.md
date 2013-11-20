@@ -27,7 +27,7 @@ to point at the right location for the liblua5.1.so file.
 
 Install spawn-fcgi to run the fcgi process: `$ sudo apt-get install spawn-fcgi`
 
-    $ spawn-fcgi -a 127.0.0.1 -p 9000 bin/lua-fcgi
+    $ spawn-fcgi -a 127.0.0.1 -p 9000 bin/luafcgi
 
 ## Nginx Setup
 

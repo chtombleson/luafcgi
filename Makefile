@@ -4,26 +4,18 @@ LUA_INC= /usr/include/lua5.1
 
 WARN= -Wall
 INCS= -I$(LUA_INC)
-LIBS= -lfcgi
+LIBS= -lfcgi -llua5.1 -lm
 CFLAGS= -fPIC -O2 $(WARN) $(INCS) $(DEFS)
 CXXFLAGS= -O2 $(WARN) $(INCS) $(DEFS)
 CC= gcc
 
-LIB_OPTION= -shared
-
-LIBNAME= luafcgi.so
-
-OBJS= src/luafcgi.o
 SRCS= src/luafcgi.c
-EXE= lua-fcgi
+EXE= luafcgi
 
-lib: $(LIBNAME) $(EXE)
-
-$(LIBNAME): $(OBJS)
-	$(CC) $(CFLAGS) -o bin/$@ $(LIB_OPTION) $(OBJS) $(LIBS)
+lib: $(EXE)
 
 $(EXE):
-	$(CC) $(WARN) $(INCS) -L/usr/lib/i386-linux-gnu/ -o bin/$@ src/lua-fcgi.c $(LIBS) -llua5.1 -lm
+	$(CC) $(WARN) $(INCS) -L/usr/lib/i386-linux-gnu/ -o bin/$@ $(SRCS) $(LIBS)
 
 clean:
-	rm -f bin/$(LIBNAME) src/*.o bin/$(EXE)
+	rm -f bin/$(EXE)

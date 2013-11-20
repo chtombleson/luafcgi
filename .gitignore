@@ -1,5 +1,5 @@
 bin/*.so
 bin/*.lua
-bin/lua-fcgi
+bin/luafcgi
 src/*.o
 *.swp
