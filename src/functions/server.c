@@ -6,7 +6,7 @@
 #include "../luafcgi.h"
 #include "server.h"
 
-void createServerVar() {
+void serverVar() {
     char *query_string, *request_method, *content_type,
          *content_length, *script_filename, *script_name,
          *request_uri, *document_uri, *document_root,
