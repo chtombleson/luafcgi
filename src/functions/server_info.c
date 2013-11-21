@@ -1,5 +1,6 @@
 #include <fcgiapp.h>
 #include <stdio.h>
+#include <string.h>
 #include <lua5.1/lua.h>
 #include <lua5.1/lualib.h>
 #include <lua5.1/lauxlib.h>
@@ -14,13 +15,13 @@ LuaFCGI_ServerInfo getServerInfo() {
     serverInfo.query_string = FCGX_GetParam("QUERY_STRING", request.envp);
     serverInfo.request_method = FCGX_GetParam("REQUEST_METHOD", request.envp);
     serverInfo.content_type = FCGX_GetParam("CONTENT_TYPE", request.envp);
-    serverInfo.content_length = FCGX_GetParam("CONTENT_LuaENGTH", request.envp);
-    serverInfo.script_filename = FCGX_GetParam("SCRIPT_FILuaENAME", request.envp);
+    serverInfo.content_length = FCGX_GetParam("CONTENT_LENGTH", request.envp);
+    serverInfo.script_filename = FCGX_GetParam("SCRIPT_FILENAME", request.envp);
     serverInfo.script_name = FCGX_GetParam("SCRIPT_NAME", request.envp);
     serverInfo.request_uri = FCGX_GetParam("REQUEST_URI", request.envp);
     serverInfo.document_uri = FCGX_GetParam("DOCUMENT_URI", request.envp);
     serverInfo.document_root = FCGX_GetParam("DOCUMENT_ROOT", request.envp);
-    serverInfo.server_protocol = FCGX_GetParam("SERVER_PROTOCOLua", request.envp);
+    serverInfo.server_protocol = FCGX_GetParam("SERVER_PROTOCOL", request.envp);
     serverInfo.gateway_interface = FCGX_GetParam("GATEWAY_INTERFACE", request.envp);
     serverInfo.server_software = FCGX_GetParam("SERVER_SOFTWARE", request.envp);
     serverInfo.remote_address = FCGX_GetParam("REMOTE_ADDR", request.envp);
@@ -30,7 +31,6 @@ LuaFCGI_ServerInfo getServerInfo() {
     serverInfo.server_name = FCGX_GetParam("SERVER_NAME", request.envp);
     serverInfo.https = FCGX_GetParam("HTTPS", request.envp);
 
-    //LuaFCGI_ServerInfo *s = &serverInfo;
     return serverInfo;
 }
 
@@ -44,7 +44,6 @@ LuaFCGI_LuaInfo getLuaInfo() {
     luaInfo.authors = LUA_AUTHORS;
     luaInfo.version_num = LUA_VERSION_NUM;
 
-    //LuaFCGI_LuaInfo *l = &luaInfo;
     return luaInfo;
 }
 
@@ -58,7 +57,6 @@ LuaFCGI_Info getLuaFcgiInfo() {
     luafcgiInfo.authors = LUAFCGI_AUTHORS;
     luafcgiInfo.version_num = LUAFCGI_VERSION_NUM;
 
-    //LuaFCGI_Info *lfcgi = &luafcgiInfo;
     return luafcgiInfo;
 }
 
@@ -90,7 +88,7 @@ int l_server_info(lua_State *L) {
         "\t\t\t\t</tr>\n"
         "\t\t\t\t<tr>\n"
         "\t\t\t\t\t<th>Lua Fcgi Version Number</th>"
-        "\t\t\t\t\t<td>%d</td>\n"
+        "\t\t\t\t\t<td>%s</td>\n"
         "\t\t\t\t</tr>\n"
         "\t\t\t\t<tr>\n"
         "\t\t\t\t\t<th>Lua Fcgi Authors</th>"

@@ -12,13 +12,12 @@ typedef struct {
 } LuaFCGI_ServerInfo;
 
 typedef struct {
-    const char *version, *release, *copyright, *authors;
+    char *version, *release, *copyright, *authors;
     int version_num;
 } LuaFCGI_LuaInfo;
 
 typedef struct {
-    const char *version, *release, *copyright, *authors;
-    int version_num;
+    char *version, *release, *copyright, *authors, *version_num;
 } LuaFCGI_Info;
 
 LuaFCGI_ServerInfo getServerInfo();
