@@ -9,13 +9,13 @@ CFLAGS= -fPIC -O2 $(WARN) $(INCS) $(DEFS)
 CXXFLAGS= -O2 $(WARN) $(INCS) $(DEFS)
 CC= gcc
 
-SRCS= src/luafcgi.c
+SRCS= src/functions/print.c src/functions/server.c src/luafcgi.c
 EXE= luafcgi
 
 lib: $(EXE)
 
 $(EXE):
-	$(CC) $(WARN) -L/usr/lib/i386-linux-gnu/ -o bin/$@ $(SRCS) $(LIBS)
+	$(CC) $(WARN) -L/usr/lib/ -o bin/$@ $(SRCS) $(LIBS)
 
 clean:
 	rm -f bin/$(EXE)

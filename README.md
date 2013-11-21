@@ -48,7 +48,8 @@ Example configuration:
         }
     }
 
-Modify /etc/nginx/fastcgi_params:
+On some version of nginx you will need to modify
+/etc/nginx/fastcgi_params:
 
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
@@ -61,7 +62,7 @@ Modify /etc/nginx/fastcgi_params:
     print("\t<head>\n")
     print("\t\t<title>Lua FCGI example</title>\n");
     print("\t</head>\n")
-    print(\t<body>\n")
+    print("\t<body>\n")
     print("\t\t<strong>Hello World</strong>\n")
     print("\t</body>\n")
     print("</html>")

@@ -7,7 +7,7 @@
 #include "../luafcgi.h"
 #include "print.h"
 
-static int l_print(lua_State *L) {
+int l_print(lua_State *L) {
     int arg_n = lua_gettop(L);
 
     if (arg_n > 1) {
@@ -21,7 +21,7 @@ static int l_print(lua_State *L) {
     return 1;
 }
 
-static int l_print_error(lua_State *L) {
+int l_print_error(lua_State *L) {
     int arg_n = lua_gettop(L);
 
     if (arg_n > 1) {
