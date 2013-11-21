@@ -1,4 +1,4 @@
-LUA_INC= /usr/include/lua5.1
+LUA_INC= /usr/include/
 
 #WARN= -Wall -Wmissing-prototypes -Wmissing-declarations -ansi -pedantic
 
@@ -15,7 +15,7 @@ EXE= luafcgi
 lib: $(EXE)
 
 $(EXE):
-	$(CC) $(WARN) $(INCS) -L/usr/lib/i386-linux-gnu/ -o bin/$@ $(SRCS) $(LIBS)
+	$(CC) $(WARN) -L/usr/lib/i386-linux-gnu/ -o bin/$@ $(SRCS) $(LIBS)
 
 clean:
 	rm -f bin/$(EXE)
