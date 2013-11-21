@@ -1,6 +1,16 @@
+#include <fcgiapp.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <lua5.1/lua.h>
+#include <lua5.1/lualib.h>
+#include <lua5.1/lauxlib.h>
+
 #include "luafcgi.h"
 #include "functions/print.h"
 #include "functions/server.h"
+#include "functions/server_info.h"
 
 
 int main() {
@@ -33,6 +43,10 @@ int main() {
                 // Add print_error function to lua (prints to stderr)
                 lua_pushcfunction(Lua, l_print_error);
                 lua_setglobal(Lua, "print_error");
+
+                // Add server_info function to lua
+                lua_pushcfunction(Lua, l_server_info);
+                lua_setglobal(Lua, "server_info");
 
                 // Set SERVER var for lua
                 serverVar();
