@@ -1,0 +1,7 @@
+print("Content-type: text/plain\r\n")
+print("\r\n")
+print("Lua FCGI Version: "..LUAFCGI["version"].."\n")
+print("Lua FCGI Release: "..LUAFCGI["release"].."\n")
+print("Lua FCGI Version Num: "..LUAFCGI["version_num"].."\n")
+print("Lua FCGI Authors: "..LUAFCGI["authors"].."\n")
+print("Lua FCGI Copyright: "..LUAFCGI["copyright"].."\n")

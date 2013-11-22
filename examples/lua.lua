@@ -1,0 +1,7 @@
+print("Content-type: text/plain\r\n")
+print("\r\n")
+print("Lua Version: "..LUA["version"].."\n")
+print("Lua Release: "..LUA["release"].."\n")
+print("Lua Version Num: "..LUA["version_num"].."\n")
+print("Lua Authors: "..LUA["authors"].."\n")
+print("Lua Copyright: "..LUA["copyright"].."\n")

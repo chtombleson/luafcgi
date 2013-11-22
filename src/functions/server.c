@@ -88,3 +88,63 @@ void serverVar() {
     // Set table as SERVER variable in lua
     lua_setglobal(Lua, "SERVER");
 }
+
+void luaVar() {
+    LuaFCGI_LuaInfo luaInfo = getLuaInfo();
+
+    // Create table to hold these values for Lua to read from
+    lua_createtable(Lua, 0, 0);
+
+    lua_pushstring(Lua, "version");
+    lua_pushstring(Lua, luaInfo.version);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "release");
+    lua_pushstring(Lua, luaInfo.release);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "copyright");
+    lua_pushstring(Lua, luaInfo.copyright);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "authors");
+    lua_pushstring(Lua, luaInfo.authors);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "version_num");
+    lua_pushinteger(Lua, luaInfo.version_num);
+    lua_rawset(Lua, -3);
+
+    // Set table as LUA variable in lua
+    lua_setglobal(Lua, "LUA");
+}
+
+void luafcgiVar() {
+    LuaFCGI_Info luafcgiInfo = getLuaFcgiInfo();
+
+    // Create table to hold these values for Lua to read from
+    lua_createtable(Lua, 0, 0);
+
+    lua_pushstring(Lua, "version");
+    lua_pushstring(Lua, luafcgiInfo.version);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "release");
+    lua_pushstring(Lua, luafcgiInfo.release);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "copyright");
+    lua_pushstring(Lua, luafcgiInfo.copyright);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "authors");
+    lua_pushstring(Lua, luafcgiInfo.authors);
+    lua_rawset(Lua, -3);
+
+    lua_pushstring(Lua, "version_num");
+    lua_pushstring(Lua, luafcgiInfo.version_num);
+    lua_rawset(Lua, -3);
+
+    // Set table as LUAFCGI variable in lua
+    lua_setglobal(Lua, "LUAFCGI");
+}

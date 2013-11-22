@@ -51,6 +51,12 @@ int main() {
                 // Set SERVER var for lua
                 serverVar();
 
+                // Set LUA var for lua
+                luaVar();
+
+                // Set LUAFCGI var for lua
+                luafcgiVar();
+
                 int result = lua_pcall(Lua, 0, LUA_MULTRET, 0);
                 if (result) {
                     FCGX_FPrintF(request.err, "Failed to run script: %s\n", lua_tostring(Lua, -1));

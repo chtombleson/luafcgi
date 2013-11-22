@@ -53,19 +53,9 @@ On some version of nginx you will need to modify
 
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
-## Example Test Page
+## Examples
 
-    -- index.lua
-    print("Content-type: text/html\r\n")
-    print("\r\n")
-    print("<html>\n")
-    print("\t<head>\n")
-    print("\t\t<title>Lua FCGI example</title>\n");
-    print("\t</head>\n")
-    print("\t<body>\n")
-    print("\t\t<strong>Hello World</strong>\n")
-    print("\t</body>\n")
-    print("</html>")
+For example lua scripts see examples directory.
 
 ## LICENSE
 
