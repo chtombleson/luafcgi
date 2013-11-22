@@ -19,3 +19,9 @@ $(EXE):
 
 clean:
 	rm -f bin/$(EXE)
+
+install:
+	cp bin/$(EXE) /usr/local/bin/
+
+uninstall:
+	rm /usr/local/bin/$(EXE)
