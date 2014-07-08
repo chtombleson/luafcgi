@@ -14,7 +14,7 @@ they are:
 
 You can run the following command to install dependencies
 
-    $ sudo apt-get install liblua5.1-0-dev libfcgi-dev
+    $ sudo apt-get install liblua5.1-0-dev libfcgi-dev spawn-fcgi lua5.1
 
 ## Building
 
