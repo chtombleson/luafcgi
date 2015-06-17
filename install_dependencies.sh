@@ -4,6 +4,7 @@ CURDIR=`pwd`
 DEPENDENCIES=(
     'https://github.com/jwerle/fs.c/archive/0.1.2.tar.gz'
     'https://github.com/jeradesign/MinUnit/archive/master.tar.gz'
+    'https://github.com/clibs/commander/archive/1.3.2.tar.gz'
 )
 
 LIBUV_PACKAGE='https://github.com/clibs/uv/archive/master.tar.gz'
