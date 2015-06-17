@@ -4,3 +4,4 @@
 *.swp
 bin/luafcgi
 src/deps
+.idea/
