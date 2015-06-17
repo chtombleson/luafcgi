@@ -9,7 +9,7 @@ CFLAGS= -fPIC -O2 $(WARN) $(INCS) $(DEFS)
 CXXFLAGS= -O2 $(WARN) $(INCS) $(DEFS)
 CC= gcc
 
-SRCS= src/functions/print.c src/functions/server.c src/functions/server_info.c src/luafcgi.c
+SRCS= src/luafcgi/functions/print.c src/luafcgi/functions/server.c src/luafcgi/functions/server_info.c src/luafcgi/luafcgi.c
 EXE= luafcgi
 
 lib: $(EXE)
