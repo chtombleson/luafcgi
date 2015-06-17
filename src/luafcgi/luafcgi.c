@@ -13,7 +13,7 @@
 #include "functions/server_info.h"
 
 
-int main() {
+/*int main() {
     Lua = luaL_newstate();
     luaL_openlibs(Lua);
 
@@ -71,4 +71,4 @@ int main() {
 
     lua_close(Lua);
     return 0;
-}
+}*/
