@@ -7,7 +7,7 @@ DEPENDENCIES=(
     'https://github.com/clibs/commander/archive/1.3.2.tar.gz'
 )
 
-LIBUV_PACKAGE='https://github.com/clibs/uv/archive/master.tar.gz'
+LIBUV_PACKAGE='https://github.com/libuv/libuv/archive/v1.6.1.tar.gz'
 
 echo "====================================================="
 echo "============== INSTALLING DEPENDENCIES =============="
@@ -39,7 +39,7 @@ wget $LIBUV_PACKAGE
 tar -xf *.tar.gz
 rm *.tar.gz
 
-cd ${CURDIR}/src/deps/uv-master
+cd ${CURDIR}/src/deps/libuv-1.6.1
 
 sh autogen.sh
 ./configure
