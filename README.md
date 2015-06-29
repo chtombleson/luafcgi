@@ -14,21 +14,11 @@ they are:
 
 You can run the following command to install dependencies
 
-    $ sudo apt-get install liblua5.1-0-dev libfcgi-dev spawn-fcgi lua5.1
     $ ./install_dependencies.sh
 
 ## Building
 
-If your building on 64bit and it fails you may have to edit the Makefile
-to point at the right location for the liblua5.1.so file.
-
     $ make
-
-## Running Luafcgi
-
-Install spawn-fcgi to run the fcgi process: `$ sudo apt-get install spawn-fcgi`
-
-    $ spawn-fcgi -a 127.0.0.1 -p 9000 bin/luafcgi
 
 ## Nginx Setup
 

@@ -8,7 +8,18 @@ DEPENDENCIES=(
 )
 
 LIBUV_PACKAGE='https://github.com/libuv/libuv/archive/v1.6.1.tar.gz'
+APT_PACKAGES='liblua5.1-0-dev libfcgi-dev lua5.1'
 
+echo "====================================================="
+echo "==== INSTALL SYSTEM DEPENDENCIES (requires sudo) ===="
+echo "====================================================="
+echo ""
+
+echo "RUNNING: sudo apt-get install ${APT_PACKAGES}"
+echo ""
+sudo apt-get install ${APT_PACKAGES}
+
+echo ""
 echo "====================================================="
 echo "============== INSTALLING DEPENDENCIES =============="
 echo "====================================================="
@@ -52,5 +63,4 @@ make > /dev/null 2>&1
 sudo make install > /dev/null 2>&1
 
 echo "DONE"
-
 
