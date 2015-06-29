@@ -23,27 +23,34 @@ cd ${CURDIR}/src/deps
 
 for url in ${DEPENDENCIES[*]}; do
     echo "FETCHING: $url"
-    echo ""
 
-    wget ${url}
+    wget ${url} > /dev/null 2>&1
     tar -xf *.tar.gz
     rm *.tar.gz
 done;
 
+echo ""
 echo "====================================================="
 echo "========== INSTALLING LIBUV (requires sudo) ========="
 echo "====================================================="
 echo ""
 
-wget $LIBUV_PACKAGE
+echo "FETCHING: $LIBUV_PACKAGE"
+
+wget ${LIBUV_PACKAGE} > /dev/null 2>&1
 tar -xf *.tar.gz
 rm *.tar.gz
 
 cd ${CURDIR}/src/deps/libuv-1.6.1
 
-sh autogen.sh
-./configure
-make
-make check
-sudo make install
+echo "BUILDING LIBUV"
+echo ""
+
+sh autogen.sh > /dev/null 2>&1
+./configure > /dev/null 2>&1
+make > /dev/null 2>&1
+sudo make install > /dev/null 2>&1
+
+echo "DONE"
+
 
