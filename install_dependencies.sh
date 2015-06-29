@@ -41,5 +41,9 @@ rm *.tar.gz
 
 cd ${CURDIR}/src/deps/uv-master
 
-sudo ./clib-install.sh
+sh autogen.sh
+./configure
+make
+make check
+sudo make install
 
