@@ -9,25 +9,26 @@ Lua Fast CGI module.
 There are 2 dependencies needed to build this project
 they are:
 
- * Lua 5.1 development
+ * Lua 5.2 development
  * Fast CGI development
 
 You can run the following command to install dependencies
 
-    $ sudo apt-get install liblua5.1-0-dev libfcgi-dev spawn-fcgi lua5.1
+    $ sudo apt-get install liblua5.2-dev libfcgi-dev lua5.2
 
 ## Building
 
 If your building on 64bit and it fails you may have to edit the Makefile
 to point at the right location for the liblua5.1.so file.
 
+    $ cmake ./
     $ make
 
 ## Running Luafcgi
 
 Install spawn-fcgi to run the fcgi process: `$ sudo apt-get install spawn-fcgi`
 
-    $ spawn-fcgi -a 127.0.0.1 -p 9000 bin/luafcgi
+    $ spawn-fcgi -a 127.0.0.1 -p 9000 luafcgi
 
 ## Nginx Setup
 

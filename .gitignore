@@ -1,5 +1,7 @@
-bin/*.so
-bin/*.lua
-bin/luafcgi
-src/*.o
+luafcgi
 *.swp
+cmake_install.cmake
+CMakeFiles/
+CMakeCache.txt
+Makefile
+

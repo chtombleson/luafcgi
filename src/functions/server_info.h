@@ -1,4 +1,4 @@
-#include <lua5.1/lua.h>
+#include <lua5.2/lua.h>
 
 #ifndef LUAFGGI_FUNCTIONS_SERVER_INFO_H
 #define LUAFGGI_FUNCTIONS_SERVER_INFO_H
